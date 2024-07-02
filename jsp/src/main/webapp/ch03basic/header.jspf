@@ -1,0 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<div>
+<a href="main.jsp">Main</a>
+<a href="sub.jsp">Sub</a>
+</div>
