@@ -67,6 +67,7 @@ public class ImageDAO extends DAO{
 		// 결과 데이터를 리턴해 준다.
 		return list;
 	} // end of list()
+	
 	// 1-2. 전체 데이터 개수 처리
 	// ImageController - (Execute) - ImageListService - [ImageDAO.getTotalRow()]
 	public Long getTotalRow(PageObject pageObject) throws Exception{
@@ -99,46 +100,11 @@ public class ImageDAO extends DAO{
 		return totalRow;
 	} // end of getTotalRow()
 	
-	// 2-1. 이미지 보기 조회수 1증가 처리
-	// ImageController - (Execute) - ImageViewService - [ImageDAO.increase()]
-	public int increase(Long no) throws Exception{
-		// 결과를 저장할 수 있는 변수 선언.
-		int result = 0;
-		
-		try {
-			// 1. 드라이버 확인 - DB
-			// 2. 연결
-			con = DB.getConnection();
-			// 3. sql - 아래 LIST
-			// 4. 실행 객체 & 데이터 세팅
-			pstmt = con.prepareStatement(INCREASE);
-			pstmt.setLong(1, no);
-			// 5. 실행 - update : executeUpdate() -> int 결과가 나옴.
-			result = pstmt.executeUpdate();
-			// 6. 표시 또는 담기
-			if(result == 0) { // 글번호가 존재하지 않는다. -> 예외로 처리한다.
-				throw new Exception("예외 발생 : 번호가 존재하지 않습니다. 번호를 확인해 주세요.");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			// 특별한 예외는 그냥 전달한다.
-			if(e.getMessage().indexOf("예외 발생") >= 0) throw e;
-			// 그외 처리 중 나타나는 오류에 대해서 사용자가 볼수 있는 예외로 만들어 전달한다.
-			else throw new Exception("예외 발생 : 이미지 보기 조회수 DB 처리 중 예외가 발생했습니다.");
-		} finally {
-			// 7. 닫기
-			DB.close(con, pstmt);
-		}
-		
-		// 결과 데이터를 리턴해 준다.
-		return result;
-	} // end of increase()
-	
 	// 2-2. 이미지 보기 처리
-	// ImageController - (Execute) - ImageListService - [ImageDAO.view()]
-	public BoardVO view(Long no) throws Exception{
+	// ImageController - (Execute) - ImageViewService - [ImageDAO.view()]
+	public ImageVO view(Long no) throws Exception{
 		// 결과를 저장할 수 있는 변수 선언.
-		BoardVO vo = null;
+		ImageVO vo = null;
 		try {
 			// 1. 드라이버 확인 - DB
 			// 2. 연결
@@ -152,13 +118,14 @@ public class ImageDAO extends DAO{
 			// 6. 표시 또는 담기
 			if(rs != null && rs.next()) {
 				// rs -> vo
-				vo = new BoardVO();
+				vo = new ImageVO();
 				vo.setNo(rs.getLong("no"));
 				vo.setTitle(rs.getString("title"));
 				vo.setContent(rs.getString("content"));
-				vo.setWriter(rs.getString("writer"));
+				vo.setId(rs.getString("id"));
+				vo.setName(rs.getString("name"));
 				vo.setWriteDate(rs.getString("writeDate"));
-				vo.setHit(rs.getLong("hit"));
+				vo.setFileName(rs.getString("fileName"));
 			} // end of if
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -349,10 +316,10 @@ public class ImageDAO extends DAO{
 	
 	final String INCREASE = "update board set hit = hit + 1 "
 			+ " where no = ?"; 
-	final String VIEW= "select no, title, content, writer, "
-			+ " to_char(writeDate, 'yyyy-mm-dd') writeDate, hit "
-			+ " from board "
-			+ " where no = ?";
+	final String VIEW= "select i.no, i.title, i.content, i.id, m.name, "
+			+ " to_char(i.writeDate, 'yyyy-mm-dd') writeDate, i.fileName "
+			+ " from image i, member m "
+			+ " where (i.no = ?) and (m.id = i.id) ";
 	final String WRITE = "insert into image "
 			+ " (no, title, content, id, fileName) "
 			+ " values(image_seq.nextval, ?, ?, ?, ?)"; 
