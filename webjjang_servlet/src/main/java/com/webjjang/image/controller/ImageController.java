@@ -1,35 +1,27 @@
 package com.webjjang.image.controller;
 
-import java.util.List;
+import java.io.File;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.webjjang.board.service.BoardDeleteService;
-import com.webjjang.board.service.BoardListService;
-import com.webjjang.board.service.BoardUpdateService;
-import com.webjjang.board.service.BoardViewService;
-import com.webjjang.board.service.BoardWriteService;
 import com.webjjang.board.vo.BoardVO;
 import com.webjjang.image.vo.ImageVO;
 import com.webjjang.main.controller.Init;
 import com.webjjang.member.vo.LoginVO;
 import com.webjjang.util.page.PageObject;
-import com.webjjang.util.page.ReplyPageObject;
 import com.webjjang.util.exe.Execute;
-import com.webjjang.util.io.BoardPrint;
-import com.webjjang.util.io.In;
 
 // Board Module 에 맞는 메뉴 선택 , 데이터 수집(기능별), 예외 처리
 public class ImageController {
 
 	public String execute(HttpServletRequest request) {
-		System.out.println("BoardController.execute() --------------------------");
+		System.out.println("ImageController.execute() --------------------------");
 		// uri
 		String uri = request.getRequestURI();
-		
+		System.out.println(uri);
 		Object result = null;
 		
 		String jsp = null;
@@ -82,7 +74,7 @@ public class ImageController {
 				jsp = "image/list";
 				break;
 			case "/image/view.do":
-				System.out.println("2.이미지 게시판 보기");
+				System.out.println("2.이미지 보기");
 				String strNo = request.getParameter("no");
 				no = Long.parseLong(strNo);
 				// 전달 데이터 - 글번호, 조회수 증가 여부(1:증가, 0:증가 안함) : 배열 또는 Map
@@ -102,6 +94,8 @@ public class ImageController {
 				// 이미지 업로드 처리
 				// new MultipartRequest(request, 실제저장위치, 사이즈제한,
 				// 			encoding, 중복처리객체-파일이름뒤에 cnt 붙임)
+				// fille 객체 업로드 시 input의 name이 같으면 한개만 처리 가능.
+				// name을 다르게 해서 올리세요. file1, file2
 				MultipartRequest multi
 				= new MultipartRequest(request, realSavePath, sizeLimit,
 						"utf-8", new DefaultFileRenamePolicy() );
@@ -191,6 +185,45 @@ public class ImageController {
 						+ request.getParameter("perPageNum");
 				
 				break;
+			case "/image/changeImage.do":
+	            System.out.println("6.이미지 바꾸기 처리");
+	            
+	            // 파일 업로드 cos 라이브러리 - MultipartRequest
+	            // new MultipartRequest(request, 실제 저장 위치(realPath), 사이즈제한, encoding, 중복처리객체-파일명 뒤에 cnt 붙임(숫자))
+	            // 단점 : file 객체 업로드 시 input의 name이 같으면 1개만 처리 가능하다. get.fileName에 대한 이미지 파일은 배열로 받을 수 없다,
+	            // name을 다르게 해서 업로드하기. ex) file1 , file2...
+	            // multi가 아니라 get으로 받아오면 null이 나온다. 
+	            multi = new MultipartRequest(request, realSavePath, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
+	            
+	            // 수정할 글번호를 받는다. - 데이터 수집
+	            // 데이터 수집(사용자->서버 : form - input - name)
+	            no = Long.parseLong(multi.getParameter("no"));
+	            fileName = multi.getFilesystemName("imageFile");
+	            // 삭제하기
+	            String deleteFileName = multi.getParameter("deleteFileName");
+	            // 변수 - vo 저장하고 Service로 보낸다 : DB에 처리할 데이터만. SQL ?에 맞춰서 사용.
+	            // 위에 있는걸 vo에 다 저장함 데이터는 각각 다르니까 new해서 따로 생성
+	            vo = new ImageVO();
+	            vo.setNo(no);
+	            vo.setFileName(savePath + "/" +fileName);
+
+	            Execute.execute(Init.get(uri), vo);
+	   
+	            
+	            // 지난 이미지 파일이 존재하면 지운다. <realPath 사용> boolean 타입
+	            File deleteFile = new File(request.getServletContext().getRealPath(deleteFileName));
+	            // 존재 할 때만 지운다. <exists 사용>
+	            if(deleteFile.exists()) deleteFile.delete();
+	            
+	            // 처리 결과 메세지
+	            session.setAttribute("msg", "이미지가 변경 되었습니다.");
+	            
+	            // 페이지 정보 받기 & uri에 붙이기
+	            pageObject = PageObject.getInstance(request);
+	            // 글보기로 자동 이동 시키기 : 수정할때는 조회수 증가 안 시킨다.
+	            // jsp 정보를 작성해서 넘긴다.
+	            jsp = "redirect:view.do?no=" + no + "&" + pageObject.getPageQuery();
+	            break;
 			case "0":
 				
 			default:

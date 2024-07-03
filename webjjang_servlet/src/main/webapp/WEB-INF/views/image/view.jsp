@@ -65,6 +65,11 @@
 					<!-- 숨겨서 넘겨야할 데이터 - 이미지 번호, 현재 파일이름(삭제) -->
 					<input name="no" value="${vo.no }" type="hidden"> <input
 						name="deleteFileName" value="${vo.fileName }" type="hidden">
+						<!-- 페이지 정보도 넘긴다. -->
+						<input name="page" value="${param.page }" type="hidden">
+						<input name="perPageNum" value="${param.perPageNum }" type="hidden">
+						<input name="key" value="${param.key }" type="hidden">
+						<input name="word" value="${param.word }" type="hidden">
 					<!-- Modal body -->
 					<div class="modal-body">
 						<div class="form-group">
