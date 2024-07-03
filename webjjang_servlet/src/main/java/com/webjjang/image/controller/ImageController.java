@@ -154,9 +154,13 @@ public class ImageController {
 				vo.setNo(no);
 				vo.setTitle(title);
 				vo.setContent(content);
+				vo.setId(id); // session의 로그인 정보에서 꺼낸다. 위쪽에 코드 참조
 				
-				// DB 적용하는 처리문 작성. BoardUpdateservice
+				// DB 적용하는 처리문 작성. ImageUpdateservice
 				Execute.execute(Init.get(uri), vo);
+				
+				// 처리결과 메세지 처리
+				session.setAttribute("msg", "이미지 게시판 정보가 수정되었습니다.");
 				
 				// 페이지 정보 받기 & uri에 붙이기
 				pageObject = PageObject.getInstance(request);
