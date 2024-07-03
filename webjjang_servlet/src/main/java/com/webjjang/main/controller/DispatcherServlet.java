@@ -3,7 +3,7 @@ package com.webjjang.main.controller;
 import java.io.IOException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+//import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -91,7 +91,7 @@ public class DispatcherServlet extends HttpServlet {
 			break;
 			
 		case "/image":
-			System.out.println("이미지");
+			System.out.println("이미지~~");
 			jsp = imageController.execute(request);
 			break;
 

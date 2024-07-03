@@ -18,7 +18,7 @@ import com.webjjang.util.exe.Execute;
 public class ImageController {
 
 	public String execute(HttpServletRequest request) {
-		System.out.println("ImageController.execute() --------------------------");
+		System.out.println("ImageController.execute() --------------------------"); 
 		// uri
 		String uri = request.getRequestURI();
 		System.out.println(uri);
@@ -127,19 +127,18 @@ public class ImageController {
 				
 				break;
 			case "/image/updateForm.do":
-				System.out.println("4-1.이미지게시판 글수정 폼");
+				System.out.println("4-1.이미지게시판 수정 폼");
 				
 				// 사 -> 서버 : 글번호
 				no = Long.parseLong(request.getParameter("no"));
 				
 				// no맞는 데이터 DB에서 가져온다. BoardViewService
-				result = Execute.execute(Init.get("/image/view.do"),
-						new Long[]{no, 0L});
+				result = Execute.execute(Init.get("/image/view.do"), no);
 				// 가져온 데이터를 JSP로 보내기 위해서 request에 담는다.
 				request.setAttribute("vo", result);
 				
 				// jsp 정보
-				jsp = "board/updateForm";
+				jsp = "image/updateForm";
 				
 				break;
 			case "/image/update.do":

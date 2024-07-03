@@ -6,6 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>이미지 글보기</title>
+<script type="text/javascript">
+	$(function(){
+		$('[data-toggle="tooltip"]').tooltip();
+	})
+</script>
 </head>
 <body>
 	<div class="container">
@@ -15,14 +20,20 @@
 				<b>${vo.no }. ${vo.title } </b>
 			</div>
 			<div class="card-body">
-				<div class="card" style="width: 100%">
-					<img class="card-img-top" src="${vo.fileName }" alt="image">
-					<div class="card-img-overlay">
-						<c:if test="${login.id == vo.id }">
-							<button type="button" class="btn btn-primary" data-toggle="modal"
-								data-target="#changeImageModal">이미지 변경</button>
-						</c:if>
-						<a href="${vo.fileName }" class="btn btn-success" download>다운로드</a>
+				<div class="card">
+					<div class="card-hedder">
+						<!-- card 아래의 card-img-overlay
+						위쪽의 이미지(또는 class-card-img-top - card 클래스 밖에도 적용)
+						-width 의 기번이 100% -->
+						<img src="${vo.fileName }" alt="image">
+						<div class="card-img-overlay">
+							<c:if test="${login.id == vo.id }">
+								<button type="button" class="btn btn-primary"
+									data-toggle="modal" data-target="#changeImageModal">
+									이미지 변경</button>
+							</c:if>
+							<a href="${vo.fileName }" class="btn btn-success" download>다운로드</a>
+						</div>
 					</div>
 
 					<div class="card-body">
@@ -37,9 +48,9 @@
 			</div>
 		</div>
 		<!-- a tag : 데이터를 클릭하면 href의 정보를 가져와서 페이지 이동시킨다. -->
-		<a
-			href="updateForm.do?no=${param.no }&page=${param.page }&perPageNum=${param.perPageNum}&key=${param.key}&word=${param.word}"
-			class="btn btn-primary">수정</a>
+		<a href="updateForm.do?no=${param.no }&page=${param.page }&perPageNum=${param.perPageNum}&key=${param.key}&word=${param.word}"
+			class="btn btn-primary" title="이미지를 제외한 정보만 수정합니다."
+			data-toggle="tooltip" data-placement="top" id="uudateBtn">수정</a>
 		<button type="button" class="btn btn-danger" data-toggle="modal"
 			data-target="#myModal">삭제</button>
 		<a
@@ -65,11 +76,11 @@
 					<!-- 숨겨서 넘겨야할 데이터 - 이미지 번호, 현재 파일이름(삭제) -->
 					<input name="no" value="${vo.no }" type="hidden"> <input
 						name="deleteFileName" value="${vo.fileName }" type="hidden">
-						<!-- 페이지 정보도 넘긴다. -->
-						<input name="page" value="${param.page }" type="hidden">
-						<input name="perPageNum" value="${param.perPageNum }" type="hidden">
-						<input name="key" value="${param.key }" type="hidden">
-						<input name="word" value="${param.word }" type="hidden">
+					<!-- 페이지 정보도 넘긴다. -->
+					<input name="page" value="${param.page }" type="hidden"> <input
+						name="perPageNum" value="${param.perPageNum }" type="hidden">
+					<input name="key" value="${param.key }" type="hidden"> <input
+						name="word" value="${param.word }" type="hidden">
 					<!-- Modal body -->
 					<div class="modal-body">
 						<div class="form-group">
@@ -80,9 +91,8 @@
 
 					<!-- Modal footer -->
 					<div class="modal-footer">
-					<button class="btn btn-primary">바꾸기</button>
-						<button type="button" class="btn btn-danger" 
-						data-dismiss="modal">취소</button>
+						<button class="btn btn-primary">바꾸기</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
 					</div>
 
 				</form>
