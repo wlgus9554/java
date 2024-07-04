@@ -9,7 +9,14 @@
 <script type="text/javascript">
 	$(function(){
 		$('[data-toggle="tooltip"]').tooltip();
-	})
+		
+		// 이벤트 처리
+		$("#deleteBtn").click(function(){
+			// js 경고창 - alert : 일반 경고, confirm : 확인/취소, prompt : 키인
+			// 확인 창이 나타나는데 취소를 누르면 삭제 페이지 이동을 취소시킨다.
+			if(!confirm("정말 삭제 하시겠습니까?")) return false;
+		});
+	});
 </script>
 </head>
 <body>
@@ -52,7 +59,8 @@
 		<a href="updateForm.do?no=${param.no }&page=${param.page }&perPageNum=${param.perPageNum}&key=${param.key}&word=${param.word}"
 			class="btn btn-primary" title="이미지를 제외한 정보만 수정합니다."
 			data-toggle="tooltip" data-placement="top" id="uudateBtn">수정</a>
-		<a class="btn btn-danger" href="delete.do?no=${vo.no }&deleteFileName=${vo.fileName}">삭제</a>
+		<a class="btn btn-danger" id = "deleteBtn"
+		href="delete.do?no=${vo.no }&deleteFileName=${vo.fileName}&perPageNum=${param.perPageNum}">삭제</a>
 		</c:if>
 		<a
 			href="list.do?page=${param.page }&perPageNum=${param.perPageNum}&key=${param.key}&word=${param.word}"

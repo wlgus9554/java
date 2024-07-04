@@ -170,12 +170,14 @@ public class ImageController {
 				break;
 			case "/image/delete.do":
 				System.out.println("5.이미지게시판 글삭제");
-				// 데이터 수집 - DB에서 실행에 필요한 데이터 - 글번호, 비밀번호 - BoardVO
-				
+				// 데이터 수집 - DB에서 실행에 필요한 데이터 - 글번호, 아이디 - session
 				no = Long.parseLong(request.getParameter("no"));
 				
-				BoardVO deleteVO = new BoardVO();
+				
+				
+				ImageVO deleteVO = new ImageVO();
 				deleteVO.setNo(no);
+				deleteVO.setId(id);
 				
 				// DB 처리
 				Execute.execute(Init.get(uri), deleteVO);
@@ -184,6 +186,16 @@ public class ImageController {
 				System.out.println("**  " + deleteVO.getNo()+ "글이 삭제되었습니다.  **");
 				System.out.println("***************************");
 				
+				// 파일 삭제
+				// 삭제할 파일 이름
+				String deleteFileName = request.getParameter("deleteFileName");
+				File deleteFile = new File(request.getServletContext()
+						.getRealPath(deleteFileName));
+	            if(deleteFile.exists()) deleteFile.delete();
+				
+	            // 메세지 처라
+	            session.setAttribute("msg", "이미지 게시판이 삭제 되었습니다.");
+	            
 				jsp = "redirect:list.do?perPageNum=" 
 						+ request.getParameter("perPageNum");
 				
@@ -203,7 +215,7 @@ public class ImageController {
 	            no = Long.parseLong(multi.getParameter("no"));
 	            fileName = multi.getFilesystemName("imageFile");
 	            // 삭제하기
-	            String deleteFileName = multi.getParameter("deleteFileName");
+	            deleteFileName = multi.getParameter("deleteFileName");
 	            // 변수 - vo 저장하고 Service로 보낸다 : DB에 처리할 데이터만. SQL ?에 맞춰서 사용.
 	            // 위에 있는걸 vo에 다 저장함 데이터는 각각 다르니까 new해서 따로 생성
 	            vo = new ImageVO();
@@ -214,7 +226,7 @@ public class ImageController {
 	   
 	            
 	            // 지난 이미지 파일이 존재하면 지운다. <realPath 사용> boolean 타입
-	            File deleteFile = new File(request.getServletContext().getRealPath(deleteFileName));
+	            deleteFile = new File(request.getServletContext().getRealPath(deleteFileName));
 	            // 존재 할 때만 지운다. <exists 사용>
 	            if(deleteFile.exists()) deleteFile.delete();
 	            

@@ -20,10 +20,18 @@
 	opacity: 70%; /* 투명도 */
 	cursor: pointer;
 }
+.imageDiv {
+	background: black;
+}
 </style>
 
 <script type="text/javascript">
 $(function(){
+	
+	// 이미지 사이즈 조정 5:4
+	let imgwidth = $(".imageDiv:first").width();
+	let imgheight = $(".imageDiv:first").height();
+	console.log("image width=" + imgwidth +",height=" + imgheight)
 	// 이벤트 처리
 	$(".dataRow").click(function(){
 		// alert("click");
@@ -60,11 +68,8 @@ $(function(){
 							<select name="key" id="key" class="form-control">
 								<option value="t">제목</option>
 								<option value="c">내용</option>
-								<option value="w">작성자</option>
 								<option value="tc">제목/내용</option>
-								<option value="tw">제목/작성자</option>
-								<option value="cw">내용/작성자</option>
-								<option value="tcw">모두</option>
+								<option value="f">파일명</option>
 							</select>
 						</div>
 						<input type="text" class="form-control" placeholder="검색" id="word"
@@ -113,7 +118,9 @@ $(function(){
 					<!-- 데이터 표시 시작 -->
 					<div class="col-md-4 dataRow">
 						<div class="card" style="width: 100%">
+						<div class="imageDiv">
 							<img class="card-img-top" src="${vo.fileName }" alt="image">
+						</div>
 							<div class="card-body">
 								<strong class="card-title"> <span class="float-right">${vo.writeDate }</span>
 									${vo.name }(${vo.id })
@@ -134,12 +141,13 @@ $(function(){
 				<pageNav:pageNav listURI="list.do" pageObject="${pageObject }" />
 			</div>
 
+		</c:if>
+		<!-- 리스트 데이터 표시의 끝 -->
 			<c:if test="${ !empty login }">
 				<!-- 로그인이 되어있으면 보이게 하자. -->
 				<a href="writeForm.do?perPageNum=${pageObject.perPageNum }"
 					class="btn btn-primary">등록</a>
 			</c:if>
-		</c:if>
 	</div>
 </body>
 </html>

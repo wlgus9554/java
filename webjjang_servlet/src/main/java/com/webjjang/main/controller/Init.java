@@ -97,7 +97,7 @@ public class Init {
 	   serviceMap.get("/image/view.do").setDAO(daoMap.get("imageDAO"));
 	   serviceMap.get("/image/write.do").setDAO(daoMap.get("imageDAO"));
 	   serviceMap.get("/image/update.do").setDAO(daoMap.get("imageDAO"));
-	   serviceMap.get("/image/delete.do").setDAO(daoMap.get("boardDAO"));
+	   serviceMap.get("/image/delete.do").setDAO(daoMap.get("imageDAO"));
 	   serviceMap.get("/image/changeImage.do").setDAO(daoMap.get("imageDAO"));
    }
    public static Service get(String uri) {
