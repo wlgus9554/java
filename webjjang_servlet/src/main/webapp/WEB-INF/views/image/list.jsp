@@ -23,6 +23,9 @@
 .imageDiv {
 	background: black;
 }
+.title{
+	height: 80px; /* 높이 고정 */
+}
 </style>
 
 <script type="text/javascript">
@@ -32,6 +35,32 @@ $(function(){
 	let imgwidth = $(".imageDiv:first").width();
 	let imgheight = $(".imageDiv:first").height();
 	console.log("image width=" + imgwidth +",height=" + imgheight)
+	
+	//높이 계산 - 너비는 동일하다. : 이미지와 이미지를 감싸고 있는 div의 높이로 사용
+	let height = imgwidth / 5 * 4;
+	// 전체 imageDiv의 높이를 조정한다.
+	$(".imageDiv").height(height);
+	// 이미지 배열로 처리하면 안된다. foreach 사용 - jquery each()
+	$(".imageDiv > img").each(function(idx, image){
+// 		alert(image);
+// 		alert(height);
+// 		alert($(image).height());	
+		// 이미지가 계산된 높이 보다 크면 줄인다.
+		if($(image).height() > height){
+			let image_width = $(image).width();
+			let image_height = $(image).height();
+			let width = height / image_height * image_width;
+			console.log("changed image width=" + width);
+			
+			// 이미지 높이 줄이기
+			$(image).height(height);
+			// 이미지 너비 줄이기
+			$(image).width(width);
+
+		}
+	});
+	
+	
 	// 이벤트 처리
 	$(".dataRow").click(function(){
 		// alert("click");
@@ -118,14 +147,14 @@ $(function(){
 					<!-- 데이터 표시 시작 -->
 					<div class="col-md-4 dataRow">
 						<div class="card" style="width: 100%">
-						<div class="imageDiv">
+						<div class="imageDiv text-center align-content-center" >
 							<img class="card-img-top" src="${vo.fileName }" alt="image">
 						</div>
 							<div class="card-body">
 								<strong class="card-title"> <span class="float-right">${vo.writeDate }</span>
 									${vo.name }(${vo.id })
 								</strong>
-								<p class="card-text">
+								<p class="card-text text-truncate title">
 									<span class="no">${vo.no}</span>. ${vo.title }
 								</p>
 							</div>
