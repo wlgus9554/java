@@ -48,11 +48,12 @@
 			</div>
 		</div>
 		<!-- a tag : 데이터를 클릭하면 href의 정보를 가져와서 페이지 이동시킨다. -->
+		<c:if test="${!empty login && login.id == vo.id }">
 		<a href="updateForm.do?no=${param.no }&page=${param.page }&perPageNum=${param.perPageNum}&key=${param.key}&word=${param.word}"
 			class="btn btn-primary" title="이미지를 제외한 정보만 수정합니다."
 			data-toggle="tooltip" data-placement="top" id="uudateBtn">수정</a>
-		<button type="button" class="btn btn-danger" data-toggle="modal"
-			data-target="#myModal">삭제</button>
+		<a class="btn btn-danger" href="delete.do?no=${vo.no }&deleteFileName=${vo.fileName}">삭제</a>
+		</c:if>
 		<a
 			href="list.do?page=${param.page }&perPageNum=${param.perPageNum}&key=${param.key}&word=${param.word}"
 			class="btn btn-info">리스트</a>

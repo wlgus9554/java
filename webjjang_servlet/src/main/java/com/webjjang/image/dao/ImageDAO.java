@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import com.webjjang.board.vo.BoardVO;
 import com.webjjang.image.vo.ImageVO;
 
 import com.webjjang.main.dao.DAO;
@@ -218,9 +217,9 @@ public class ImageDAO extends DAO {
 		return result;
 	} // end of update()
 
-	// 5. 글삭제 처리
-	// BoardController - (Execute) - BoardDeleteService - [BoardDAO.delete()]
-	public int delete(BoardVO vo) throws Exception {
+	// 5. 이미지 삭제 처리
+	// ImageController - (Execute) - ImageDeleteService - [ImageDAO.delete()]
+	public int delete(ImageVO vo) throws Exception {
 		// 결과를 저장할 수 있는 변수 선언.
 		int result = 0;
 
@@ -232,12 +231,12 @@ public class ImageDAO extends DAO {
 			// 4. 실행 객체 & 데이터 세팅
 			pstmt = con.prepareStatement(DELETE);
 			pstmt.setLong(1, vo.getNo());
-			pstmt.setString(2, vo.getPw());
+			pstmt.setString(2, vo.getId());
 			// 5. 실행 - update : executeUpdate() -> int 결과가 나옴.
 			result = pstmt.executeUpdate();
 			// 6. 표시 또는 담기
 			if (result == 0) { // 글번호가 존재하지 않거나 비번 틀림. -> 예외로 처리한다.
-				throw new Exception("예외 발생 : 글번호나 비밀번호가 맞지 않습니다. 정보를 확인해 주세요.");
+				throw new Exception("예외 발생 : 번호가 맞지 않거나 본인 글이 아닙니다. 정보를 확인해 주세요.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -256,7 +255,7 @@ public class ImageDAO extends DAO {
 		return result;
 	} // end of delete()
 
-	// 4. 이미지 바꾸기 처리
+	// 6. 이미지 바꾸기 처리
 	// ImageController - (Execute) - ImageChangeService - [ImageDAO.changeImage()]
 	public int changeImage(ImageVO vo) throws Exception {
 		// 결과를 저장할 수 있는 변수 선언.
@@ -366,6 +365,6 @@ public class ImageDAO extends DAO {
 
 	final String CHANGEIMAGE = "update image " + " set fileName= ? " + " where no = ? ";
 
-	final String DELETE = "delete from board " + " where no = ? and pw = ?";
+	final String DELETE = "delete from image " + " where no = ? and id = ?";
 
 }
