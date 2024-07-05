@@ -54,7 +54,9 @@
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
 	
-	<!-- 예외와 에러 처리 -->
+	<!-- 예외와 에러 처리 - error-page-tag 설정
+	 - error-code : 브라우저나 통신에서 보여지는 에러 코드로 서버에서 처리 
+	 - exception-type: 내부 오류인 500의 Exception의 종류에 따라 처리 -->
 	<error-page>
 		<error-code>404</error-code>
 		<location>/WEB-INF/views/error/noModule_404.jsp</location>
