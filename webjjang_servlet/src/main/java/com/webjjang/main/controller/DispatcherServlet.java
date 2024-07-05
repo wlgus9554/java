@@ -64,7 +64,7 @@ public class DispatcherServlet extends HttpServlet {
 		System.out.println("pos = " + pos);
 		
 		if(pos == -1) {
-			request.getRequestDispatcher("/WEB-INF/views/error/404.jsp")
+			request.getRequestDispatcher("/WEB-INF/views/error/noModule_404.jsp")
 			.forward(request, response);
 			return;
 		}
@@ -96,7 +96,8 @@ public class DispatcherServlet extends HttpServlet {
 			break;
 
 		default:
-			request.getRequestDispatcher("/WEB-INF/views/error/404.jsp")
+			request.setAttribute("uri", request.getRequestURI());
+			request.getRequestDispatcher("/WEB-INF/views/error/noModule_404.jsp")
 			.forward(request, response);
 			return;
 		}

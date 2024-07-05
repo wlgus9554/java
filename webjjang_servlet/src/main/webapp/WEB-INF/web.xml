@@ -53,6 +53,17 @@
 		<filter-name>authority</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
+	
+	<!-- 예외와 에러 처리 -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/error/noModule_404.jsp</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/views/error/noModule_500.jsp</location>
+	</error-page>
 
 
 </web-app>

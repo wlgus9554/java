@@ -11,11 +11,6 @@
 		<pattern>/notice/*</pattern>
 		<pattern>/info/*</pattern>
 		<pattern>/member/*</pattern>
-		<pattern>/reserve/*</pattern>
-		<pattern>/dataroom/*</pattern>
-		<pattern>/room/*</pattern>
-		<pattern>/teacher/*</pattern>
-		<pattern>/schedule/*</pattern>
 		<pattern>/image/*</pattern>
 
 	</decorator>
