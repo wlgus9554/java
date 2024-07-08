@@ -124,11 +124,11 @@ public class MemberController {
 				jsp = "board/view";
 				break;
 			case "/member/writeForm.do":
-				System.out.println("3-1.일반게시판 글등록 폼");
-				jsp="board/writeForm";
+				System.out.println("3-1.회원 가입 폼");
+				jsp="member/writeForm";
 				break;
 			case "/member/write.do":
-				System.out.println("3.일반게시판 글등록 처리");
+				System.out.println("3. 회원 가입 처리");
 				
 				// 데이터 수집(사용자->서버 : form - input - name)
 				String title = request.getParameter("title");
@@ -152,6 +152,24 @@ public class MemberController {
 						+ request.getParameter("perPageNum");
 				
 				break;
+				
+			case "/member/checkId.do":
+				System.out.println("3-3. 아이디 중복 체크 처리");
+				
+				// 데이터 수집(사용자->서버 : form - input - name)
+				id = request.getParameter("id"); // 사용자가 입력한 아이디.
+				
+				// [MemberController] - MemberCheckIdService - MemberDAO.chechId(id)
+				id = (String) Execute.execute(Init.get(uri), id); // 서버에서 가져온 아이디.
+				
+				request.setAttribute("id", id);
+				
+				// jsp 정보 앞에 "redirect:"가 붙어 있어 redirect를
+				// 아니면 jsp로 forward로 시킨다.
+				jsp = "member/chechId";
+				
+				break;
+				
 			case "/member/updateForm.do":
 				System.out.println("4-1.일반게시판 글수정 폼");
 				

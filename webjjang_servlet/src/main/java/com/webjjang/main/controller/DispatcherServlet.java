@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.webjjang.ajax.controller.AjaxController;
 import com.webjjang.board.controller.BoardController;
 import com.webjjang.boardreply.controller.BoardReplyController;
 import com.webjjang.image.controller.ImageController;
@@ -28,6 +29,7 @@ public class DispatcherServlet extends HttpServlet {
 	private BoardReplyController boardReplyController = new BoardReplyController();
 	private MemberController memberController = new MemberController();
 	private ImageController imageController = new ImageController();
+	private AjaxController ajaxController = new AjaxController();
 	/**
 	 * @see Servlet#init(ServletConfig)
 	 */
@@ -93,6 +95,11 @@ public class DispatcherServlet extends HttpServlet {
 		case "/image":
 			System.out.println("이미지~~");
 			jsp = imageController.execute(request);
+			break;
+			
+		case "/ajax":
+			System.out.println("아이디 중복~");
+			jsp = ajaxController.execute(request);
 			break;
 
 		default:

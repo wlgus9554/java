@@ -9,9 +9,8 @@
 		<pattern>/main/*</pattern>
 		<pattern>/board/*</pattern>
 		<pattern>/notice/*</pattern>
-		<pattern>/info/*</pattern>
-		<pattern>/member/*</pattern>
 		<pattern>/image/*</pattern>
+		<pattern>/member/*</pattern>
 
 	</decorator>
 	
