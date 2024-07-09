@@ -354,7 +354,7 @@ public class MemberDAO extends DAO{
 			+ " where (id = ?) and (m.gradeNo = g.gradeNo) ";
 	final String WRITE = "insert into member "
 			+ " (id, pw, name, gender, birth, tel, email, photo) "
-			+ " values(?, ?, ?, ?, ?, ?, ?, ?)"; 
+			+ " values(?, ?, ?, ?, ?, ?, ?, ?) "; 
 	final String CHECKID = " select id from member "
 			+ " where id = ? ";
 	final String UPDATE = "update member "

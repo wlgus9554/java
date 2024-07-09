@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.webjjang.board.service.BoardDeleteService;
 import com.webjjang.board.service.BoardListService;
 import com.webjjang.board.service.BoardUpdateService;
@@ -13,6 +15,7 @@ import com.webjjang.board.service.BoardWriteService;
 import com.webjjang.board.vo.BoardVO;
 import com.webjjang.main.controller.Init;
 import com.webjjang.member.vo.LoginVO;
+import com.webjjang.member.vo.MemberVO;
 import com.webjjang.util.page.PageObject;
 import com.webjjang.util.page.ReplyPageObject;
 import com.webjjang.util.exe.Execute;
@@ -40,6 +43,13 @@ public class MemberController {
 		Object result = null;
 		
 		String jsp = null;
+		
+		String savePath = "/upload/member";
+		
+		String realSavePath 
+		= request.getServletContext().getRealPath(savePath);
+		// 업로드 파일 용량 제한
+		int sizeLimit = 100 * 1024 * 1024;
 		
 		// 입력 받는 데이터 선언
 		Long no = 0L;
@@ -127,23 +137,35 @@ public class MemberController {
 				System.out.println("3-1.회원 가입 폼");
 				jsp="member/writeForm";
 				break;
-			case "/member/write.do":
-				System.out.println("3. 회원 가입 처리");
 				
+			case "/member/write.do":
+				System.out.println("3-2. 회원 가입 처리");
+				
+				MultipartRequest multi
+				= new MultipartRequest(request, realSavePath, sizeLimit,
+						"utf-8", new DefaultFileRenamePolicy() );
 				// 데이터 수집(사용자->서버 : form - input - name)
-				String title = request.getParameter("title");
-				String content = request.getParameter("content");
-				String writer = request.getParameter("writer");
-				pw = request.getParameter("pw");
+				id = multi.getParameter("id");
+				pw = multi.getParameter("pw");
+				String name = multi.getParameter("name");
+				String gender = multi.getParameter("gender");
+				String birth = multi.getParameter("birth");
+				String tel = multi.getParameter("tel");
+				String email = multi.getParameter("email");
+				String photo = multi.getParameter("photo");
 				
 				// 변수 - vo 저장하고 Service
-				BoardVO vo = new BoardVO();
-				vo.setTitle(title);
-				vo.setContent(content);
-				vo.setWriter(writer);
+				MemberVO vo = new MemberVO();
+				vo.setId(id);
 				vo.setPw(pw);
+				vo.setName(name);
+				vo.setGender(gender);
+				vo.setBirth(birth);
+				vo.setTel(tel);
+				vo.setEmail(email);
+				vo.setPhoto(photo);
 				
-				// [BoardController] - BoardWriteService - BoardDAO.write(vo)
+				// [MemberController] - MemberWriteService - MemberDAO.write(vo)
 				Execute.execute(Init.get(uri), vo);
 				
 				// jsp 정보 앞에 "redirect:"가 붙어 있어 redirect를
@@ -190,22 +212,22 @@ public class MemberController {
 				System.out.println("4-2.일반게시판 글수정 처리");
 				
 				// 데이터 수집(사용자->서버 : form - input - name)
-				no = Long.parseLong(request.getParameter("no"));
-				title = request.getParameter("title");
-				content = request.getParameter("content");
-				writer = request.getParameter("writer");
-				pw = request.getParameter("pw");
-				
-				// 변수 - vo 저장하고 Service
-				vo = new BoardVO();
-				vo.setNo(no);
-				vo.setTitle(title);
-				vo.setContent(content);
-				vo.setWriter(writer);
-				vo.setPw(pw);
+//				no = Long.parseLong(request.getParameter("no"));
+//				title = request.getParameter("title");
+//				content = request.getParameter("content");
+//				writer = request.getParameter("writer");
+//				pw = request.getParameter("pw");
+//				
+//				// 변수 - vo 저장하고 Service
+//				vo = new BoardVO();
+//				vo.setNo(no);
+//				vo.setTitle(title);
+//				vo.setContent(content);
+//				vo.setWriter(writer);
+//				vo.setPw(pw);
 				
 				// DB 적용하는 처리문 작성. BoardUpdateservice
-				Execute.execute(Init.get(uri), vo);
+//				Execute.execute(Init.get(uri), vo);
 				
 				// 페이지 정보 받기 & uri에 붙이기
 				pageObject = PageObject.getInstance(request);

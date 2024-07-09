@@ -117,6 +117,7 @@
 		  	<c:if test="${ !empty login }">
 			  	<!-- 로그인을 했을 때 -->
 			    <li class="nav-item">
+			    
 			      <a class="nav-link" href="/">
 			      	<i 	class="fa fa-sign-out"></i>
 			      	로그아웃
