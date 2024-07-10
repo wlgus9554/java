@@ -3,7 +3,7 @@ package com.webjjang.main.controller;
 import java.io.IOException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-//import javax.servlet.annotation.WebServlet;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,11 +25,14 @@ public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	// Controller 선언과 생성 - 1번만 된다.
+	private MainController mainController = new MainController();
 	private BoardController boardController = new BoardController();
-	private BoardReplyController boardReplyController = new BoardReplyController();
+	private BoardReplyController boardReplyController
+		= new BoardReplyController();
 	private MemberController memberController = new MemberController();
 	private ImageController imageController = new ImageController();
 	private AjaxController ajaxController = new AjaxController();
+	
 	/**
 	 * @see Servlet#init(ServletConfig)
 	 */
@@ -61,11 +64,18 @@ public class DispatcherServlet extends HttpServlet {
 		String uri = request.getRequestURI();
 		System.out.println("uri = " + uri);
 		
+		// main 처리 - localhost -> localhost/main.do -> /main/main.do
+		if(uri.equals("/") || uri.equals("/main.do")) {
+			response.sendRedirect("/main/main.do");
+			return;
+		}
+		
 		// uri = /module/기능 -> /board/list.do
 		int pos = uri.indexOf("/", 1);
 		System.out.println("pos = " + pos);
 		
 		if(pos == -1) {
+			request.setAttribute("uri", request.getRequestURI());
 			request.getRequestDispatcher("/WEB-INF/views/error/noModule_404.jsp")
 			.forward(request, response);
 			return;
@@ -74,9 +84,23 @@ public class DispatcherServlet extends HttpServlet {
 		String module = uri.substring(0, pos);
 		System.out.println("module = " + module);
 		
+		// request에 module 담아서 어떤 메뉴가 선택되었는지 처리 : default_decorator.jsp
+		request.setAttribute("module", module);
+		
 		String jsp = null;
 		
 		switch (module) {
+		
+		case "/main":
+			System.out.println("메인 처리");
+			jsp = mainController.execute(request);
+			break;
+		
+		case "/member":
+			System.out.println("회원 관리");
+			jsp = memberController.execute(request);
+			break;
+
 		case "/board":
 			System.out.println("일반 게시판");
 			jsp = boardController.execute(request);
@@ -87,21 +111,16 @@ public class DispatcherServlet extends HttpServlet {
 			jsp = boardReplyController.execute(request);
 			break;
 			
-		case "/member":
-			System.out.println("로그인");
-			jsp = memberController.execute(request);
-			break;
-			
 		case "/image":
-			System.out.println("이미지~~");
+			System.out.println("이미지 게시판");
 			jsp = imageController.execute(request);
 			break;
 			
 		case "/ajax":
-			System.out.println("아이디 중복~");
+			System.out.println("Ajax 처리");
 			jsp = ajaxController.execute(request);
 			break;
-
+			
 		default:
 			request.setAttribute("uri", request.getRequestURI());
 			request.getRequestDispatcher("/WEB-INF/views/error/noModule_404.jsp")
@@ -118,6 +137,7 @@ public class DispatcherServlet extends HttpServlet {
 			// jsp로 forward한다.
 			request.getRequestDispatcher("/WEB-INF/views/" + jsp + ".jsp")
 			.forward(request, response);
+			// request.getSession().removeAttribute("msg");
 		}
 		
 	}

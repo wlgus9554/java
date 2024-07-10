@@ -24,7 +24,10 @@ import com.webjjang.image.service.ImageWriteService;
 import com.webjjang.main.dao.DAO;
 import com.webjjang.main.service.Service;
 import com.webjjang.member.dao.MemberDAO;
+import com.webjjang.member.service.MemberChangeGradeService;
+import com.webjjang.member.service.MemberChangeStatusService;
 import com.webjjang.member.service.MemberCheckIdService;
+import com.webjjang.member.service.MemberListService;
 import com.webjjang.member.service.MemberLoginService;
 import com.webjjang.member.service.MemberWriteService;
 
@@ -75,12 +78,18 @@ public class Init {
       
       // service 생성
       serviceMap.put("/member/login.do", new MemberLoginService());
-      serviceMap.put("/ajax/checkId.do", new MemberCheckIdService());
+      serviceMap.put("/member/list.do", new MemberListService());
       serviceMap.put("/member/write.do", new MemberWriteService());
+      serviceMap.put("/member/changeGrade.do", new MemberChangeGradeService());
+      serviceMap.put("/member/changeStatus.do", new MemberChangeStatusService());
+      serviceMap.put("/ajax/checkId.do", new MemberCheckIdService());
       
       serviceMap.get("/member/login.do").setDAO(daoMap.get("memberDAO"));
-      serviceMap.get("/ajax/checkId.do").setDAO(daoMap.get("memberDAO"));
+      serviceMap.get("/member/list.do").setDAO(daoMap.get("memberDAO"));
       serviceMap.get("/member/write.do").setDAO(daoMap.get("memberDAO"));
+      serviceMap.get("/member/changeGrade.do").setDAO(daoMap.get("memberDAO"));
+      serviceMap.get("/member/changeStatus.do").setDAO(daoMap.get("memberDAO"));
+      serviceMap.get("/ajax/checkId.do").setDAO(daoMap.get("memberDAO"));
       
       
       

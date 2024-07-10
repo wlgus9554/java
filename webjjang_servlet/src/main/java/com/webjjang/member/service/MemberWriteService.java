@@ -1,6 +1,5 @@
 package com.webjjang.member.service;
 
-
 import com.webjjang.main.dao.DAO;
 import com.webjjang.main.service.Service;
 import com.webjjang.member.dao.MemberDAO;
@@ -16,7 +15,7 @@ public class MemberWriteService implements Service {
 	}
 
 	@Override
-	public Object service(Object obj) throws Exception {
+	public Integer service(Object obj) throws Exception {
 		// DB 처리는 DAO에서 처리 - MemberDAO.checkId()
 		// MemberController - (Execute)
 		// - [MemberCheckIdService] - MemberDAO.checkId()
