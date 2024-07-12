@@ -7,7 +7,7 @@
 
 <script type="text/javascript">
    $(function() {
-
+	   
       // 이미지 사이즈 조정 5:4
       let imgWidth = $(".imageDiv:first").width();
       let imgHeight = $(".imageDiv:first").height();
@@ -16,7 +16,10 @@
 
       // 높이계산 - 너비는 동일 : 이미지와 이미지를 감싸고 있는 Div의 높이로 사용
       let height = imgWidth / 5 * 4;
-      $(".imageDiv > img").height(height);
+      // imageDiv의 높이 조정.
+      $(".imageDiv").height(height);
+      // imageDiv의 배경을 검정색으로 변경
+      $(".imageDiv").css("background","black");
 
       // 이미지 배열로 사용하면 안된다 . foreach사용 - jQuery each()
       $(".imageDiv > img").each(function(idx, image) {
@@ -32,6 +35,7 @@
             $(image).width(width);
          }
       });
+});
 
 </script>
 
@@ -54,7 +58,7 @@
               ${"<div class='row'>"}
            </c:if>
                <!-- 데이터 표시 시작 -->
-               <div class="col-md-4 dataRow">
+               <div class="col-md-4 dataRow image imageLink">
                   <div class="card" style="width: 100%">
                      <div class="imageDiv text-center align-content-center">
                         <img class="card-img-top" src="${vo.fileName }" alt="image">

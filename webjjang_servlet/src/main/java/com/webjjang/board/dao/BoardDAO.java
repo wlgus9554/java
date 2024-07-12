@@ -342,7 +342,7 @@ public class BoardDAO extends DAO{
 	
 	final String INCREASE = "update board set hit = hit + 1 "
 			+ " where no = ?"; 
-	final String VIEW= "select no, title, content, writer, "
+	final String VIEW= " select no, title, content, writer, "
 			+ " to_char(writeDate, 'yyyy-mm-dd') writeDate, hit "
 			+ " from board "
 			+ " where no = ?";

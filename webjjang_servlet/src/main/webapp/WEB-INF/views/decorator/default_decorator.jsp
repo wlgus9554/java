@@ -75,7 +75,7 @@
 <body>
    <header>
       <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-         <a class="nav-link" href="/">웹짱닷컴</a>
+         <a class="nav-link" href="/main/main.do">웹짱닷컴</a>
       <!-- 주메뉴 부분 -->
          <!-- 오른쪽 부분의 내용을 오른쪽 끝에 두기 위해서
           mr-* 오른쪽 마진 사용. auto : 데이터를 제외한 부분을 margin으로 사용 -->

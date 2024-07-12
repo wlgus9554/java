@@ -13,6 +13,7 @@ import com.webjjang.board.controller.BoardController;
 import com.webjjang.boardreply.controller.BoardReplyController;
 import com.webjjang.image.controller.ImageController;
 import com.webjjang.member.controller.MemberController;
+import com.webjjang.notice.controller.NoticeController;
 
 /**
  * Servlet implementation class DispatcherServlet
@@ -32,6 +33,7 @@ public class DispatcherServlet extends HttpServlet {
 	private MemberController memberController = new MemberController();
 	private ImageController imageController = new ImageController();
 	private AjaxController ajaxController = new AjaxController();
+	private NoticeController noticeController = new NoticeController();
 	
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -119,6 +121,11 @@ public class DispatcherServlet extends HttpServlet {
 		case "/ajax":
 			System.out.println("Ajax 처리");
 			jsp = ajaxController.execute(request);
+			break;
+			
+		case "/notice":
+			System.out.println("공지사항 처리");
+			jsp = noticeController.execute(request);
 			break;
 			
 		default:
