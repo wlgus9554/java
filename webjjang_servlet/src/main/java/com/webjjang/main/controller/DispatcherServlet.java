@@ -14,6 +14,7 @@ import com.webjjang.boardreply.controller.BoardReplyController;
 import com.webjjang.image.controller.ImageController;
 import com.webjjang.member.controller.MemberController;
 import com.webjjang.notice.controller.NoticeController;
+import com.webjjang.qna.controller.QnaController;
 
 /**
  * Servlet implementation class DispatcherServlet
@@ -34,6 +35,7 @@ public class DispatcherServlet extends HttpServlet {
 	private ImageController imageController = new ImageController();
 	private AjaxController ajaxController = new AjaxController();
 	private NoticeController noticeController = new NoticeController();
+	private QnaController qnaController = new QnaController();
 	
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -97,16 +99,22 @@ public class DispatcherServlet extends HttpServlet {
 			System.out.println("메인 처리");
 			jsp = mainController.execute(request);
 			break;
-		
+
 		case "/member":
 			System.out.println("회원 관리");
 			jsp = memberController.execute(request);
 			break;
-
+			
 		case "/board":
 			System.out.println("일반 게시판");
 			jsp = boardController.execute(request);
 			break;
+		
+		case "/notice":
+			System.out.println("공지사항");
+			jsp = noticeController.execute(request);
+			break;
+			
 			
 		case "/boardreply":
 			System.out.println("일반 게시판 댓글");
@@ -123,9 +131,9 @@ public class DispatcherServlet extends HttpServlet {
 			jsp = ajaxController.execute(request);
 			break;
 			
-		case "/notice":
-			System.out.println("공지사항 처리");
-			jsp = noticeController.execute(request);
+		case "/qna":
+			System.out.println("질문답변 처리");
+			jsp = qnaController.execute(request);
 			break;
 			
 		default:

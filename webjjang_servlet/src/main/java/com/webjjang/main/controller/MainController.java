@@ -1,21 +1,11 @@
 package com.webjjang.main.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
-import com.webjjang.board.service.BoardDeleteService;
-import com.webjjang.board.service.BoardListService;
-import com.webjjang.board.service.BoardUpdateService;
-import com.webjjang.board.service.BoardViewService;
-import com.webjjang.board.service.BoardWriteService;
-import com.webjjang.board.vo.BoardVO;
-import com.webjjang.main.controller.Init;
+import com.webjjang.member.vo.LoginVO;
 import com.webjjang.util.page.PageObject;
-import com.webjjang.util.page.ReplyPageObject;
 import com.webjjang.util.exe.Execute;
-import com.webjjang.util.io.BoardPrint;
-import com.webjjang.util.io.In;
 
 // Main Module 에 맞는 메뉴 선택 , 데이터 수집(기능별), 예외 처리
 public class MainController {
@@ -28,6 +18,16 @@ public class MainController {
 		Object result = null;
 		
 		String jsp = null;
+		
+		HttpSession session = request.getSession();
+		
+		int gradeNo = 0;
+		
+		LoginVO login = (LoginVO) session.getAttribute("login");
+		
+		if(login != null) {
+			gradeNo = login.getGradeNo();
+		}
 				
 		try { // 정상 처리
 		
@@ -38,6 +38,19 @@ public class MainController {
 				// 페이지 처리를 위한 객체
 				// getInstance - 기본 값이 있고 넘어오는 페이지와 검색 정보를 세팅 처리
 				PageObject pageObject = new PageObject();
+				
+				if(gradeNo == 9) {
+					pageObject.setPeriod("all");
+				} else {
+					pageObject.setPeriod("pre");
+				}
+				// 메인에 표시할 데이터 - 공지사항 / 일반 게시판 / 이미지
+				// DB에서 데이터 가져오기 
+				// 공지사항
+				pageObject.setPerPageNum(7);
+				// [MainController] - (Execute) - NoticeListService - NoticeDAO.list()
+				result = Execute.execute(Init.get("/notice/list.do"), pageObject);
+				request.setAttribute("noticeList", result);
 				
 				// 메인에 표시할 데이터 - 일반 게시판 / 이미지
 				// DB에서 데이터 가져오기 

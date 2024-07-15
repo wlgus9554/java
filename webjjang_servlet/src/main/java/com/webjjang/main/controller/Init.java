@@ -36,6 +36,9 @@ import com.webjjang.notice.service.NoticeListService;
 import com.webjjang.notice.service.NoticeUpdateService;
 import com.webjjang.notice.service.NoticeViewService;
 import com.webjjang.notice.service.NoticeWriteService;
+import com.webjjang.qna.dao.QnaDAO;
+import com.webjjang.qna.service.QnaListService;
+import com.webjjang.qna.service.QnaWriteService;
 
 public class Init {
 
@@ -133,6 +136,21 @@ public class Init {
 		serviceMap.get("/notice/list.do").setDAO(daoMap.get("noticeDAO"));
 		serviceMap.get("/notice/view.do").setDAO(daoMap.get("noticeDAO"));
 		serviceMap.get("/notice/write.do").setDAO(daoMap.get("noticeDAO"));
+		serviceMap.get("/notice/update.do").setDAO(daoMap.get("noticeDAO"));
+		serviceMap.get("/notice/delete.do").setDAO(daoMap.get("noticeDAO"));
+		
+		// --------------------------질문답변 객체 생성과 조립
+		daoMap.put("qnaDAO", new QnaDAO());
+		// 서비스생성 
+		serviceMap.put("/qna/list.do", new QnaListService());
+		serviceMap.put("/notice/view.do", new NoticeViewService());
+		serviceMap.put("/qna/write.do", new QnaWriteService());
+		serviceMap.put("/notice/update.do", new NoticeUpdateService());
+		serviceMap.put("/notice/delete.do", new NoticeDeleteService());
+		// 조립 dao->service
+		serviceMap.get("/qna/list.do").setDAO(daoMap.get("qnaDAO"));
+		serviceMap.get("/notice/view.do").setDAO(daoMap.get("noticeDAO"));
+		serviceMap.get("/qna/write.do").setDAO(daoMap.get("qnaDAO"));
 		serviceMap.get("/notice/update.do").setDAO(daoMap.get("noticeDAO"));
 		serviceMap.get("/notice/delete.do").setDAO(daoMap.get("noticeDAO"));
 

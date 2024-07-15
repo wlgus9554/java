@@ -3,7 +3,6 @@ package com.webjjang.member.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.webjjang.notice.vo.NoticeVO;
 import com.webjjang.main.dao.DAO;
 import com.webjjang.member.vo.LoginVO;
 import com.webjjang.member.vo.MemberVO;

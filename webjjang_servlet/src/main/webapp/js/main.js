@@ -14,6 +14,9 @@
 		} else if($(this).hasClass("image")){
 //			alert("Image click")
 			location = "/image/view.do?no=" + no;
+		} else if($(this).hasClass("notice")){
+//			alert("notice click")
+			location = "/notice/view.do?no=" + no;
 		}
 	});
  });

@@ -29,6 +29,10 @@
 
    <style type="text/css">
    
+     .container {
+      padding: 25px 5px;
+   }
+   
    pre {
       background: white;
       border: 0px;
@@ -61,6 +65,7 @@
    
    article {
       min-height: 795px;
+      margin-top: 60px;
    }
    
    #welcome {
@@ -72,13 +77,29 @@
    <!-- 개발자가 작성한 소스의 head 태그를 여기에 넣게 된다. title은 제외 -->
    <decorator:head/>
 </head>
+	<script type="text/javascript">
+	$(function(){
+		// 취소 버튼 이벤트
+		$(".cancelBtn").click(function(){
+			history.back();
+		});
+	});
+	</script>
 <body>
    <header>
-      <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
          <a class="nav-link" href="/main/main.do">웹짱닷컴</a>
+         
+         <!-- 보여지는 너비가 작은 경우 나타나는 메뉴 줄임 3선 -->
+           <!-- Toggler/collapsibe Button -->
+  		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    		<span class="navbar-toggler-icon"></span>
+ 		</button>
+         
       <!-- 주메뉴 부분 -->
          <!-- 오른쪽 부분의 내용을 오른쪽 끝에 두기 위해서
           mr-* 오른쪽 마진 사용. auto : 데이터를 제외한 부분을 margin으로 사용 -->
+       <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item ${(module == '/notice')?'active':'' }">
             <a class="nav-link" href="/notice/list.do">공지사항</a>
@@ -91,6 +112,9 @@
           </li>
           <li class="nav-item ${(module == '/board')?'active':'' }">
             <a class="nav-link" href="/board/list.do">일반게시판</a>
+          </li>
+          <li class="nav-item ${(module == '/qna')?'active':'' }">
+            <a class="nav-link" href="/qna/list.do">Q&A</a>
           </li>
           
           <!-- 관리자 메뉴 -->
@@ -136,7 +160,7 @@
              </li>
              
              <li class="nav-item">
-               <a class="nav-link" href="/member/view.do">내정보보기</a>
+               <a class="nav-link" href="/member/view.do">내정보</a>
              </li>
              <!-- 로그인을 했을 때 -->
              <li class="nav-item">
@@ -150,6 +174,7 @@
              </li>
           </c:if>
         </ul>
+        </div>
       </nav>
    
    </header>

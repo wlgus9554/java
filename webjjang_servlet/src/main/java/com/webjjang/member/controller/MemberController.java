@@ -1,28 +1,19 @@
 package com.webjjang.member.controller;
 
 import java.io.File;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.webjjang.board.service.BoardDeleteService;
-import com.webjjang.board.service.BoardListService;
-import com.webjjang.board.service.BoardUpdateService;
-import com.webjjang.board.service.BoardViewService;
-import com.webjjang.board.service.BoardWriteService;
 import com.webjjang.board.vo.BoardVO;
-import com.webjjang.image.vo.ImageVO;
 import com.webjjang.main.controller.Init;
 import com.webjjang.member.vo.LoginVO;
 import com.webjjang.member.vo.MemberVO;
 import com.webjjang.util.page.PageObject;
 import com.webjjang.util.page.ReplyPageObject;
 import com.webjjang.util.exe.Execute;
-import com.webjjang.util.io.BoardPrint;
-import com.webjjang.util.io.In;
 
 // Member Module 에 맞는 메뉴 선택 , 데이터 수집(기능별), 예외 처리
 public class MemberController {
@@ -91,7 +82,7 @@ public class MemberController {
 				// 아니면 jsp로 forward로 시킨다.
 				// 원래는 main이나 진행하려고 했던 uri로 이동시킨다.
 				// 그러나 완성이 안되어 있어서 완성되어진 게시판 리스트로 보낸다.
-				jsp = "redirect:/board/list.do";
+				jsp = "redirect:/";
 				
 				// 로그인 완료 메시지 처리
 				session.setAttribute("msg", "로그인 처리가 되었습니다.");
@@ -104,7 +95,7 @@ public class MemberController {
 				
 				session.setAttribute("msg", "로그아웃 되었습니다.");
 				
-				jsp = "redirect:/board/list.do";
+				jsp = "redirect:/";
 				break;
 			case "/member/list.do": // 관리자만 가능하다.
 				// [MemberController] - (Execute)

@@ -2,11 +2,7 @@ package com.webjjang.util.exe;
 
 import java.util.Arrays;
 
-import com.webjjang.main.controller.Main;
 import com.webjjang.main.service.Service;
-import com.webjjang.member.service.MemberConUpdateService;
-
-import com.webjjang.util.auth.Authority;
 
 public class Execute {
    
@@ -47,10 +43,8 @@ public class Execute {
       System.out.println("실행 시간(ns) : " + (end - start));
       System.out.println("---------------------------------------");
       
-      // 최근 접속일 출력 - 반드시 로그인이 되어져있는 경우만
-      if(Main.login != null) {
-         new MemberConUpdateService().service(Main.login.getId());
-      }
+      // 최근 접속일 출력 
+     // -  로그인이 되어져있는 경우만 - 필터로 처리하기로 함.(계획)
       
       // 처리된 결과를 리턴한다 
       return result;
