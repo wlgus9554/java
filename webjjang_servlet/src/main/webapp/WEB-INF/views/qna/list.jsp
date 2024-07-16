@@ -7,6 +7,23 @@
 <head>
 <meta charset="UTF-8">
 <title>Q&A List</title>
+<style type="text/css">
+.dataRow:hover{
+	background: #e0e0e0;
+	cursor: pointer;
+}
+</style>
+
+<script type="text/javascript">
+$(function(){
+	// 이벤트 처리
+	$(".dataRow").click(function(){
+	// 한줄 데이터를 클릭하면 질문답변보기로 이동 - 번호 필요.
+	let no = $(this).find(".no").text();
+	location = "view.do?no=" + no + "&${pageObject.pageQuery}"
+	});
+});
+</script>
 </head>
 <body>
 <div class="container">
