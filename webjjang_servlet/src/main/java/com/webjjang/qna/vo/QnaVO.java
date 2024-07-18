@@ -1,8 +1,8 @@
 package com.webjjang.qna.vo;
 
-//import lombok.Data;
+// import lombok.Data;
 
-//@Data
+// @Data
 public class QnaVO {
 
 	// private 변수 
