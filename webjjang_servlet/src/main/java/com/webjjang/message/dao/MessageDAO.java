@@ -115,11 +115,41 @@ public class MessageDAO extends DAO{
 		return totalRow;
 	} // end of getTotalRow()
 	
-	// 2-2. 글보기 처리
-	// BoardController - (Execute) - BoardViewService - [BoardDAO.view()]
-	public BoardVO view(Long no) throws Exception{
+	// 2-1. 받은 날짜가 null인 데이터를 현재 날짜로 세팅해 준다.
+	// MessageController - (Execute) - MessageWriteService - [MessageDAO.increaseNewMsgCnt()]
+	public int setReaded(Long no) throws Exception{
+		// 결과를 저장할 수 있는 변수 선언. - 1 : 수정 성공->새로운메세지개수 -1 처리, 0 : 수정 안됨.
+		int result = 0;
+		
+		try {
+			// 1. 드라이버 확인 - DB
+			// 2. 연결
+			con = DB.getConnection();
+			// 3. sql - 아래 LIST
+			// 4. 실행 객체 & 데이터 세팅
+			pstmt = con.prepareStatement(READED);
+			pstmt.setLong(1, no);
+			// 5. 실행 - update : executeUpdate() -> int 결과가 나옴.
+			result = pstmt.executeUpdate();
+			// 6. 표시 또는 담기
+			System.out.println("MessageDAO.setReaded() - 메세지 읽기 표시 성공");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("예외 발생 : 메세지 읽기 표시 DB 처리 중 예외가 발생했습니다.");
+		} finally {
+			// 7. 닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과 데이터를 리턴해 준다.
+		return result;
+	} // end of setReaded()
+	
+	// 2-2. 메세지 보기 데이터 가져오기 처리
+	// MessageController - (Execute) - MessageViewService - [MessageDAO.view()]
+	public MessageVO view(Long no) throws Exception{
 		// 결과를 저장할 수 있는 변수 선언.
-		BoardVO vo = null;
+		MessageVO vo = null;
 		try {
 			// 1. 드라이버 확인 - DB
 			// 2. 연결
@@ -133,17 +163,21 @@ public class MessageDAO extends DAO{
 			// 6. 표시 또는 담기
 			if(rs != null && rs.next()) {
 				// rs -> vo
-				vo = new BoardVO();
+				vo = new MessageVO();
 				vo.setNo(rs.getLong("no"));
-				vo.setTitle(rs.getString("title"));
 				vo.setContent(rs.getString("content"));
-				vo.setWriter(rs.getString("writer"));
-				vo.setWriteDate(rs.getString("writeDate"));
-				vo.setHit(rs.getLong("hit"));
+				vo.setSenderId(rs.getString("senderId"));
+				vo.setSenderName(rs.getString("senderName"));
+				vo.setSendDate(rs.getString("sendDate"));
+				vo.setSenderPhoto(rs.getString("senderPhoto"));
+				vo.setAccepterId(rs.getString("accepterId"));
+				vo.setAccepterName(rs.getString("accepterName"));
+				vo.setAcceptDate(rs.getString("acceptDate"));
+				vo.setAccepterPhoto(rs.getString("accepterPhoto"));
 			} // end of if
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception("예외 발생 : 일반 게시판 글보기 DB 처리 중 오류 발생");
+			throw new Exception("예외 발생 : 메시지 보기 DB 처리 중 오류 발생");
 		} finally {
 			// 7. 닫기
 			DB.close(con, pstmt, rs);
@@ -152,6 +186,37 @@ public class MessageDAO extends DAO{
 		// 결과 데이터를 리턴해 준다.
 		return vo;
 	} // end of view()
+	
+	// 2-3. 받은 날짜가 변경이되면 회원의 새로운메시지 개수 항목을 -1해준다.
+	// MessageController - (Execute) - MessageViewService - [MessageDAO.decreaseNewMsgCnt()]
+	// 2-1의 결과값이 1일때 실행
+	public int decreaseNewMsgCnt(String id) throws Exception{
+		// 결과를 저장할 수 있는 변수 선언.
+		int result = 0;
+		
+		try {
+			// 1. 드라이버 확인 - DB
+			// 2. 연결
+			con = DB.getConnection();
+			// 3. sql - 아래 LIST
+			// 4. 실행 객체 & 데이터 세팅
+			pstmt = con.prepareStatement(DECREASENEWMSGCNT);
+			pstmt.setString(1, id);
+			// 5. 실행 - update : executeUpdate() -> int 결과가 나옴.
+			result = pstmt.executeUpdate();
+			// 6. 표시 또는 담기
+			System.out.println("MessageDAO.decreaseNewMsgCnt() - 새로운 메시지 카운트 1 감소 성공");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("예외 발생 : 새로운 메세지 1 감소 DB 처리 중 예외가 발생했습니다.");
+		} finally {
+			// 7. 닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과 데이터를 리턴해 준다.
+		return result;
+	} // end of decreaseNewMsgCnt()
 	
 	// 3-1. 메세지 등록 처리
 	// MessageController - (Execute) - MessageWriteService - [MessageDAO.write()]
@@ -395,10 +460,24 @@ public class MessageDAO extends DAO{
 	final String INCREASENEWMSGCNT
 		= "update member set newMsgCnt = newMsgCnt + 1 "
 				+ " where id = ?"; 
-	final String VIEW= "select no, title, content, writer, "
-			+ " to_char(writeDate, 'yyyy-mm-dd') writeDate, hit "
-			+ " from board "
-			+ " where no = ?";
+	final String READED
+		= " update message set acceptDate = sysdate "
+			+ " where (no = ?) and acceptDate is null "; 
+	final String VIEW = ""
+		+ " select m.no, m.content, "
+		+ " m.senderId, sm.name senderName, sm.photo senderPhoto, "
+		+ " to_char(m.sendDate, 'yyyy-mm-dd') sendDate, "
+		+ " m.accepterId, am.name accepterName, am.photo accepterPhoto, "
+		+ " to_char(m.acceptDate, 'yyyy-mm-dd') acceptDate "
+		+ " from message m, member sm, member am "
+		+ " where (no = ?) "
+		+ " and ( "
+		+ " m.accepterId = am.id and m.senderId = sm.id "
+		+ " ) "
+;
+	final String DECREASENEWMSGCNT
+	= " update member set newMsgCnt = newMsgCnt - 1 "
+			+ " where id = ?"; 
 	final String WRITE = "insert into message "
 			+ " (no, content, senderId, accepterId) "
 			+ " values(message_seq.nextval, ?, ?, ?)"; 

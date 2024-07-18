@@ -19,7 +19,10 @@ $(function(){
 	// 이벤트 처리
 	$(".dataRow").click(function(){
 		let no = $(this).find(".no").text();
-		alert(no);
+		let accept = $(this).data("accept"); // data-accept=value
+		// alert(no);
+		location = "view.do?no="+ no + "&mode=${pageObject.acceptMode}&${pageObject.pageQuery}"
+		+ "&accept=" + accept;
 	});
 });
 </script>
@@ -46,7 +49,8 @@ $(function(){
 		<c:if test="${ empty list }">메세지가 존재하지 않습니다.</c:if>
 		<c:if test="${ !empty list }">
 			<c:forEach items="${list }" var="vo">
-				<div class="media border p-3 dataRow">
+				<div class="media border p-3 dataRow" 
+				data-accept="${(vo.senderId == login.id)?0:1 }">
 					<c:if test="${vo.senderId == login.id }">
 						<!-- 내가 보낸 사람이다. 받는 사람의 정보만 표시한다. 오른쪽 정렬 -->
 					  <div class="media-body text-right ${(empty vo.acceptDate)?'font-weight-bold':'' }">

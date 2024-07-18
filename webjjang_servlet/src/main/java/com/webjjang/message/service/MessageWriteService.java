@@ -1,7 +1,5 @@
 package com.webjjang.message.service;
 
-import com.webjjang.board.dao.BoardDAO;
-import com.webjjang.board.vo.BoardVO;
 import com.webjjang.main.dao.DAO;
 import com.webjjang.main.service.Service;
 import com.webjjang.message.dao.MessageDAO;
