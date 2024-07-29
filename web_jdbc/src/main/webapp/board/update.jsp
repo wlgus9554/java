@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="com.webjjang.board.service.BoardUpdateService"%>
-<%@page import="com.webjjang.util.exe.Execute"%>
+<%@page import="com.musaic.util.exe.Execute"%>
 <%@page import="com.webjjang.board.vo.BoardVO"%>
 <%
 System.out.println("update.jsp------------");
