@@ -47,6 +47,7 @@
 			</td>
 		</tr>
 	</table>
+
 	<!-- 댓글 처리 시작 -->
 	<jsp:include page="reply.jsp"/>
 	<!-- 댓글 처리 끝 -->

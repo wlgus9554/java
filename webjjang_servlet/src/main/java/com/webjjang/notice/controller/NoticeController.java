@@ -34,7 +34,7 @@ public class NoticeController {
                             pageObject.setPeriod(period);
                         }
                     } else {
-                        pageObject.setPeriod("pre");
+                        pageObject.setPeriod(null);
                     }
                     result = Execute.execute(Init.get(uri), pageObject);
                     System.out.println("NoticeController.execute().pageObject = " + pageObject);

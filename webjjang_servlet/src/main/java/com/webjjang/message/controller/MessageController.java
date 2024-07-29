@@ -81,6 +81,9 @@ public class MessageController {
 				// 가져온 데이터를 JSP로 보내기 위해서 request에 담는다.
 				request.setAttribute("vo", result);
 				
+				// JSP 보여지는 새로운 메세지를 다시 불러와서 세션에 넣는다.
+				loginVO.setNewMsgCnt((Long) Execute.execute(Init.get("/ajax/getNewMsgCnt.do"), id));
+				
 				// 페이지 정보 - 리스트로 돌아갈때 필요함.
 				request.setAttribute("pageObject", PageObject.getInstance(request));
 				

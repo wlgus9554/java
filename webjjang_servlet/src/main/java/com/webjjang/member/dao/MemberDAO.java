@@ -416,7 +416,38 @@ public class MemberDAO extends DAO{
 		return result;
 	} // end of update()
 	
+	// 8. 회원이 받은 새로운 메세지 갯수 가져오기 처리
+		// MemberController - (Execute) - MemberNewMsgCntService - [MemberDAO.getNewMsgCnt()]
+		public Long getNewMsgCnt(String id) throws Exception{
+			// 결과를 저장할 수 있는 변수 선언.
+			Long newMsgCnt = 0L;
+			try {
+				// 1. 드라이버 확인 - DB
+				// 2. 연결
+				con = DB.getConnection();
+				// 3. sql - 아래 VIEW
+				// 4. 실행 객체 & 데이터 세팅
+				pstmt = con.prepareStatement(NEWMSGCNT);
+				pstmt.setString(1, id);
+				// 5. 실행
+				rs = pstmt.executeQuery();
+				// 6. 표시 또는 담기
+				if(rs != null && rs.next()) {
+					// rs -> vo
+					newMsgCnt = rs.getLong(1);
+				} // end of if
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw e;
+			} finally {
+				// 7. 닫기
+				DB.close(con, pstmt, rs);
+			} // end of try ~ catch ~ finally
 
+			// 결과 데이터를 리턴해 준다.
+			return newMsgCnt;
+		} // end of newMsgCnt()
+		
 	// 실행할 쿼리를 정의해 놓은 변수 선언.
 	final String LIST = "" 
 			+ " select id, name, birth, gender, tel, "
@@ -468,4 +499,5 @@ public class MemberDAO extends DAO{
 			+ " and (g.gradeNo = m.gradeNo) ";
 	final String UPDATE_CONDATE= "update member "
 			+ " set conDate = sysdate where id = ? "; 	
+	final String NEWMSGCNT = " select newMsgCnt from member where id = ? ";
 }

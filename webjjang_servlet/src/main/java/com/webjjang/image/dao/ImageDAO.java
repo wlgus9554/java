@@ -299,12 +299,17 @@ public class ImageDAO extends DAO {
 	// 실행할 쿼리를 정의해 놓은 변수 선언.
 
 	// 리스트의 페이지 처리 절차 - 원본 -> 순서 번호 -> 해당 페이지 데이터만 가져온다.
-	final String LIST = "" + " select no, title, id, name, writeDate, fileName " + " from ( "
-			+ " select rownum rnum, no, title, id, name, " + "    writeDate, fileName " + " from ( "
-			+ " select i.no, i.title, i.id, m.name, " + " to_char(i.writeDate, 'yyyy-mm-dd') writeDate, "
-			+ " i.fileName " + " from image i , member m "
-			// where 1=1 and (일반조건) and (조인조건)
-			+ " where 1=1 "
+	final String LIST = "" 
+			+ " select no, title, id, name, writeDate, fileName " 
+			+ " from ( "
+				+ " select rownum rnum, no, title, id, name, " 
+				+ "    writeDate, fileName " 
+				+ " from ( "
+					+ " select i.no, i.title, i.id, m.name, " + " to_char(i.writeDate, 'yyyy-mm-dd') writeDate, "
+					+ " i.fileName " 
+					+ " from image i , member m "
+					// where 1=1 and (일반조건) and (조인조건)
+					+ " where 1=1 "
 	// 여기에 검색이 있어야 합니다.
 	;
 	// 검색이 있는 경우 TOTALROW + search문

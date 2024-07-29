@@ -289,7 +289,6 @@ public class NoticeDAO extends DAO{
 				sql += ")";
 			}
 			return sql;
-			
 		}
 		
 		// 리스트의 기간 검색만 처리하는 쿼리 - where
@@ -323,7 +322,7 @@ public class NoticeDAO extends DAO{
 			return idx;
 		}
 	
-	final String VIEW= "select no, title, content, "
+	final String VIEW = "select no, title, content, "
 			+ " to_char(startDate, 'yyyy-mm-dd') startDate, "
 			+ " to_char(endDate, 'yyyy-mm-dd') endDate, "
 			+ " to_char(updateDate, 'yyyy-mm-dd') writeDate, "

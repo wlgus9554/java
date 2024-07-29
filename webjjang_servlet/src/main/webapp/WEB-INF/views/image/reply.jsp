@@ -198,10 +198,10 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-               <button class = "btn btn-primary" type = "button" id = "replyModalWriteBtn" >등록</button>
-               <button class = "btn btn-success" type = "button" id = "replyModalUpdateBtn" >수정</button>
+               <button class = "btn btn-secondary" type = "button" id = "replyModalWriteBtn" >등록</button>
+               <button class = "btn btn-secondary" type = "button" id = "replyModalUpdateBtn" >수정</button>
                <button class = "btn btn-warning" type = "button" id = "replyModalDeleteBtn" >삭제</button>
-               <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
          </form>
       </div>

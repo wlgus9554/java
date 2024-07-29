@@ -1,9 +1,10 @@
 package com.webjjang.ajax.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.webjjang.main.controller.Init;
-
+import com.webjjang.member.vo.LoginVO;
 import com.webjjang.util.exe.Execute;
 
 
@@ -21,6 +22,14 @@ public class AjaxController {
 		
 		String jsp = null;
 		
+		// session 꺼내기
+		HttpSession session = request.getSession();
+		
+		// 로그인 정보 꺼내기
+		LoginVO loginVO = (LoginVO) session.getAttribute("login");
+		
+		if(loginVO != null) id = loginVO.getId();
+		
 		try { // 정상 처리
 		
 			// 메뉴 처리 : CRUD DB 처리 - Controller - Service - DAO
@@ -31,7 +40,7 @@ public class AjaxController {
 				// 데이터 수집(사용자->서버 : form - input - name)
 				id = request.getParameter("id");
 				
-				// [MemberController] 
+				// [ajaxController] 
 				// - MemberCheckIdService - MemberDAO.checkId(id)
 				id = (String) Execute.execute(Init.get(uri), id);
 				
@@ -39,6 +48,21 @@ public class AjaxController {
 				
 				// jsp 정보 
 				jsp = "member/checkId";
+				
+				break;
+				
+			case "/ajax/getNewMsgCnt.do":
+				System.out.println("1. 새로운 메세지 가져오기");
+				
+				
+				// [AjaxController] 
+				// - MemberNewMsgCntService - MemberDAO.getNewMsgCnt(id)
+				Long result = (Long) Execute.execute(Init.get(uri), id);
+				
+				request.setAttribute("newMsgCnt", result);
+				
+				// jsp 정보 
+				jsp = "member/newMsgCnt";
 				
 				break;
 

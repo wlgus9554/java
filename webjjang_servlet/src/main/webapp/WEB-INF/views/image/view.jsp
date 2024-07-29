@@ -42,7 +42,6 @@
 							<a href="${vo.fileName }" class="btn btn-success" download>다운로드</a>
 						</div>
 					</div>
-
 					<div class="card-body">
 						<p class="card-text">
 						<pre>${vo.content }</pre>
